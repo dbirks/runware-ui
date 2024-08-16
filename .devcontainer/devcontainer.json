@@ -2,6 +2,7 @@
     "name": "Runway UI",
     "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
     "features": {
-        "ghcr.io/e-gineering/devcontainer-features/rye:1": {}
+        "ghcr.io/devcontainers-contrib/features/go-task": {},
+        "./devcontainer-features/src/rye": {}
     }
 }
