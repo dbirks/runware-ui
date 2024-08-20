@@ -2,6 +2,7 @@ from runware import Runware, IImageInference
 from dotenv import load_dotenv
 import os
 import asyncio
+import streamlit as st
 
 
 load_dotenv()
@@ -16,10 +17,14 @@ async def fetch_images() -> list:
         await runware.connect()
 
         request_image = IImageInference(
-            positivePrompt="a beautiful sunset over the mountains",
-            model="civitai:36520@76907",
-            numberResults=4,
-            negativePrompt="cloudy, rainy",
+            positivePrompt="""
+            a group of settlers looking out over a vast plain, 
+            wondering where the next meal will come from, storm on the horizon, 
+            and for some reason they're all wearing bright cyan shirts with pink polka dots
+            """,
+            model="runware:100@1",
+            numberResults=1,
+            # negativePrompt="cloudy, rainy",
             useCache=False,
             height=512,
             width=512,
@@ -34,10 +39,14 @@ async def fetch_images() -> list:
 
 def main():
     print("Hello world")
+
+    st.title("Runware UI")
+
     try:
         images = asyncio.run(fetch_images())
         for image in images:
             print(f"Image: {image.imageURL}")
+            st.image(image.imageURL)
     except Exception as e:
         print(f"An error occurred in main: {e}")
 
