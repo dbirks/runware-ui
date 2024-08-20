@@ -5,7 +5,11 @@ description = "Add your description here"
 authors = [
     { name = "David Birks", email = "david@birks.dev" }
 ]
-dependencies = []
+dependencies = [
+    "python-dotenv>=1.0.1",
+    "streamlit>=1.37.1",
+    "runware>=0.1.5",
+]
 readme = "README.md"
 requires-python = ">= 3.8"
 

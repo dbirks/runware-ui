@@ -3,6 +3,15 @@
     "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
     "features": {
         "ghcr.io/devcontainers-contrib/features/go-task": {},
-        "./devcontainer-features/src/rye": {}
+        "ghcr.io/e-gineering/devcontainer-features/rye": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.black-formatter",
+                "ms-python.python",
+                "ms-python.debugpy"
+            ]
+        }
     }
 }
