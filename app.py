@@ -1,4 +1,4 @@
-from runware import Runware, IRequestImage
+from runware import Runware, IImageInference
 from dotenv import load_dotenv
 import os
 import asyncio
@@ -15,16 +15,17 @@ async def fetch_images() -> list:
         runware = Runware(api_key=RUNWARE_API_KEY, log_level=RUNWARE_LOG_LEVEL)
         await runware.connect()
 
-        request_image = IRequestImage(
-            positive_prompt="A beautiful sunset over the mountains",
-            width=512,
+        request_image = IImageInference(
+            positivePrompt="a beautiful sunset over the mountains",
+            model="civitai:36520@76907",
+            numberResults=4,
+            negativePrompt="cloudy, rainy",
+            useCache=False,
             height=512,
-            model_id=13,
-            number_of_images=2,
-            negative_prompt="cloudy, rainy",
+            width=512,
         )
 
-        images = await runware.requestImages(requestImage=request_image)
+        images = await runware.imageInference(requestImage=request_image)
         return images
     except Exception as e:
         print(f"An error occurred: {e}")

@@ -85,7 +85,7 @@ rich==13.7.1
 rpds-py==0.20.0
     # via jsonschema
     # via referencing
-runware==0.1.5
+runware==0.2.0
     # via runware-ui
 six==1.16.0
     # via python-dateutil
