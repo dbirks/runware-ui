@@ -1,10 +1,8 @@
-from time import sleep
 from typing import List
-from runware import Runware, IImageInference, IImage
+from runware import Runware, IImageInference
 from dotenv import load_dotenv
 import os
 import asyncio
-import runware
 from runware.server import RunwareServer
 import streamlit as st
 
@@ -14,25 +12,16 @@ load_dotenv()
 RUNWARE_API_KEY = os.getenv("RUNWARE_API_KEY")
 RUNWARE_LOG_LEVEL = os.getenv("RUNWARE_LOG_LEVEL")
 
-# runware = None
-# connection_ready = asyncio.Event()
 
-
-# @st.cache_resource
 async def initialize_runware():
-    # global runware
-    # if runware is None:
     runware = Runware(api_key=RUNWARE_API_KEY, log_level=RUNWARE_LOG_LEVEL)
     await runware.connect()
-    # connection_ready.set()
     return runware
 
 
-# @st.cache_data
 async def fetch_images(
     _runware: RunwareServer, prompt: str, number_of_images: int
 ) -> List[str]:
-    # await connection_ready.wait()
 
     try:
         request_image = IImageInference(
@@ -56,20 +45,22 @@ async def main():
     st.title("Runware UI")
 
     runware = await initialize_runware()
-    # asyncio.run(initialize_runware())
 
-    # with st.spinner("Waiting for Runware to connect"):
-    #     asyncio.run(connection_ready.wait())
+    form = st.form(key="submit_form")
 
-    placeholder_prompt = "anime girl smoking a cigarette with a smug expression"
+    placeholder_prompt = "superman t-rex"
 
-    prompt_text_box = st.text_area(
+    prompt_text_box = form.text_area(
         label="Enter your prompt here:", value=placeholder_prompt
     )
 
-    number_of_images_to_create = st.slider("How many images to create", 1, 4)
+    number_of_images_to_create = form.slider(
+        label="How many images to create", min_value=1, max_value=4
+    )
 
-    if st.button("Submit", type="primary"):
+    submit = form.form_submit_button(label="Submit")
+
+    if submit:
         try:
             image_urls = await fetch_images(
                 runware, prompt_text_box, number_of_images_to_create
