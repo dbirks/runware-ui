@@ -1,9 +1,10 @@
 FROM python:slim
 
+RUN pip install uv
+
 WORKDIR /app
-COPY requirements.lock ./
-RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -r requirements.lock
+COPY . .
+RUN uv pip install --no-cache --system -r requirements.lock
 
-COPY src .
-CMD python main.py
-
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+EXPOSE 8080
