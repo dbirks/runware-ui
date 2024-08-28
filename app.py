@@ -46,6 +46,8 @@ async def fetch_images(
 
 
 async def main():
+    st.set_page_config(page_title="Runware UI", layout="wide")
+
     st.title("Runware UI")
 
     runware = await initialize_runware()
