@@ -27,9 +27,13 @@ async def fetch_images(
         request_image = IImageInference(
             positivePrompt=prompt,
             model="runware:100@1",
+            # model="urn:air:flux1:checkpoint:civitai:618692@691639",
+            # model="civitai:618692@691639",
+            # lora=["civitai:67941@72606"], # 80s
+            # model="civitai:54233@125985", # ghibli backgrounds
             numberResults=number_of_images,
             # negativePrompt="cloudy, rainy",
-            useCache=False,
+            # useCache=False,
             height=512,
             width=512,
         )
