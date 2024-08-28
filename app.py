@@ -23,7 +23,7 @@ async def fetch_images(
     runware: RunwareServer,
     positive_prompt: str,
     number_of_images: int,
-    negative_prompt: str,
+    # negative_prompt: str,
     height: int,
     width: int,
 ) -> List[str]:
@@ -37,7 +37,7 @@ async def fetch_images(
             # lora=["civitai:67941@72606"], # 80s
             # model="civitai:54233@125985", # ghibli backgrounds
             numberResults=number_of_images,
-            negativePrompt=negative_prompt,
+            # negativePrompt=negative_prompt,
             # useCache=False,
             height=height,
             width=width,
@@ -69,9 +69,9 @@ async def main():
             label="Enter your prompt here:", value=placeholder_prompt
         )
 
-        negative_prompt_text_box = form.text_area(
-            label="Negative prompt here (optional):"
-        )
+        # negative_prompt_text_box = form.text_area(
+        #     label="Negative prompt here (optional):"
+        # )
 
         number_of_images_to_create = form.slider(
             label="How many images to create", min_value=1, max_value=10
@@ -94,7 +94,7 @@ async def main():
                     runware=runware,
                     positive_prompt=positive_prompt_text_box,
                     number_of_images=number_of_images_to_create,
-                    negative_prompt=negative_prompt_text_box,
+                    # negative_prompt=negative_prompt_text_box,
                     height=height,
                     width=width,
                 )
