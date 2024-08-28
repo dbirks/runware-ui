@@ -61,7 +61,7 @@ async def main():
     )
 
     number_of_images_to_create = form.slider(
-        label="How many images to create", min_value=1, max_value=4
+        label="How many images to create", min_value=1, max_value=10
     )
 
     submit = form.form_submit_button(label="Submit")
