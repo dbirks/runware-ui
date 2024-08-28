@@ -20,24 +20,27 @@ async def initialize_runware():
 
 
 async def fetch_images(
-    _runware: RunwareServer, prompt: str, number_of_images: int
+    runware: RunwareServer,
+    positive_prompt: str,
+    number_of_images: int,
+    negative_prompt: str,
 ) -> List[str]:
 
     try:
         request_image = IImageInference(
-            positivePrompt=prompt,
+            positivePrompt=positive_prompt,
             model="runware:100@1",
             # model="urn:air:flux1:checkpoint:civitai:618692@691639",
             # model="civitai:618692@691639",
             # lora=["civitai:67941@72606"], # 80s
             # model="civitai:54233@125985", # ghibli backgrounds
             numberResults=number_of_images,
-            # negativePrompt="cloudy, rainy",
+            negativePrompt=negative_prompt,
             # useCache=False,
             height=512,
             width=512,
         )
-        images = await _runware.imageInference(requestImage=request_image)
+        images = await runware.imageInference(requestImage=request_image)
         image_urls = [image.imageURL for image in images]
         return image_urls
     except Exception as e:
@@ -54,14 +57,18 @@ async def main():
 
     col1, col2 = st.columns(2)
 
-    placeholder_prompt = "manga picture of a couple walking along a path next to a stream, enjoying the seasons"
+    placeholder_prompt = "90s manga picture of a couple walking along a path next to a stream, enjoying the seasons"
 
     with col1:
 
         form = st.form(key="submit_form")
 
-        prompt_text_box = form.text_area(
+        positive_prompt_text_box = form.text_area(
             label="Enter your prompt here:", value=placeholder_prompt
+        )
+
+        negative_prompt_text_box = form.text_area(
+            label="Negative prompt here (optional):"
         )
 
         number_of_images_to_create = form.slider(
@@ -75,7 +82,10 @@ async def main():
         if submit:
             try:
                 image_urls = await fetch_images(
-                    runware, prompt_text_box, number_of_images_to_create
+                    runware=runware,
+                    positive_prompt=positive_prompt_text_box,
+                    number_of_images=number_of_images_to_create,
+                    negative_prompt=negative_prompt_text_box,
                 )
             except Exception as e:
                 print(f"An error occurred in main: {e}")
