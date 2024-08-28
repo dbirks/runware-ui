@@ -24,6 +24,8 @@ async def fetch_images(
     positive_prompt: str,
     number_of_images: int,
     negative_prompt: str,
+    height: int,
+    width: int,
 ) -> List[str]:
 
     try:
@@ -37,8 +39,8 @@ async def fetch_images(
             numberResults=number_of_images,
             negativePrompt=negative_prompt,
             # useCache=False,
-            height=512,
-            width=512,
+            height=height,
+            width=width,
         )
         images = await runware.imageInference(requestImage=request_image)
         image_urls = [image.imageURL for image in images]
@@ -75,6 +77,13 @@ async def main():
             label="How many images to create", min_value=1, max_value=10
         )
 
+        size_of_images = form.selectbox(
+            "Choose a size", ["512x512", "1024x1024", "2048x2048"]
+        )
+
+        width = int(size_of_images.split("x")[0])
+        height = int(size_of_images.split("x")[1])
+
         submit = form.form_submit_button(label="Submit")
 
     with col2:
@@ -86,6 +95,8 @@ async def main():
                     positive_prompt=positive_prompt_text_box,
                     number_of_images=number_of_images_to_create,
                     negative_prompt=negative_prompt_text_box,
+                    height=height,
+                    width=width,
                 )
             except Exception as e:
                 print(f"An error occurred in main: {e}")
