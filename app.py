@@ -52,31 +52,38 @@ async def main():
 
     runware = await initialize_runware()
 
-    form = st.form(key="submit_form")
+    col1, col2 = st.columns(2)
 
-    placeholder_prompt = "superman t-rex"
+    placeholder_prompt = "manga picture of a couple walking along a path next to a stream, enjoying the seasons"
 
-    prompt_text_box = form.text_area(
-        label="Enter your prompt here:", value=placeholder_prompt
-    )
+    with col1:
 
-    number_of_images_to_create = form.slider(
-        label="How many images to create", min_value=1, max_value=10
-    )
+        form = st.form(key="submit_form")
 
-    submit = form.form_submit_button(label="Submit")
+        prompt_text_box = form.text_area(
+            label="Enter your prompt here:", value=placeholder_prompt
+        )
 
-    if submit:
-        try:
-            image_urls = await fetch_images(
-                runware, prompt_text_box, number_of_images_to_create
-            )
+        number_of_images_to_create = form.slider(
+            label="How many images to create", min_value=1, max_value=10
+        )
 
-            for image_url in image_urls:
-                print(f"Received image URL: {image_url}")
-                st.image(image_url, use_column_width=True)
-        except Exception as e:
-            print(f"An error occurred in main: {e}")
+        submit = form.form_submit_button(label="Submit")
+
+    with col2:
+
+        if submit:
+            try:
+                image_urls = await fetch_images(
+                    runware, prompt_text_box, number_of_images_to_create
+                )
+            except Exception as e:
+                print(f"An error occurred in main: {e}")
+
+            # for image_url in image_urls:
+            #     print(f"Received image URL: {image_url}")
+            #     st.image(image_url, use_column_width=True)
+            st.image(image_urls, use_column_width=True)
 
 
 if __name__ == "__main__":
