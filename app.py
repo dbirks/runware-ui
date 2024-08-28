@@ -100,10 +100,13 @@ async def main():
                 )
             except Exception as e:
                 print(f"An error occurred in main: {e}")
+            st.session_state["image_urls"] = image_urls
 
-            # for image_url in image_urls:
-            #     print(f"Received image URL: {image_url}")
-            #     st.image(image_url, use_column_width=True)
+        # for image_url in image_urls:
+        #     print(f"Received image URL: {image_url}")
+        #     st.image(image_url, use_column_width=True)
+        if 'image_urls' in st.session_state:
+            image_urls = st.session_state["image_urls"] 
             st.image(image_urls, use_column_width=True)
 
 
