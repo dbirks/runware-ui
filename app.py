@@ -77,12 +77,12 @@ async def main():
             label="How many images to create", min_value=1, max_value=10
         )
 
-        size_of_images = form.selectbox(
-            "Choose a size", ["512x512", "1024x1024", "2048x2048"]
-        )
+        # size_of_images = form.selectbox(
+        #     "Choose a size", ["512x512", "1024x1024", "2048x2048"]
+        # )
 
-        width = int(size_of_images.split("x")[0])
-        height = int(size_of_images.split("x")[1])
+        # width = int(size_of_images.split("x")[0])
+        # height = int(size_of_images.split("x")[1])
 
         submit = form.form_submit_button(label="Submit")
 
@@ -95,8 +95,8 @@ async def main():
                     positive_prompt=positive_prompt_text_box,
                     number_of_images=number_of_images_to_create,
                     # negative_prompt=negative_prompt_text_box,
-                    height=height,
-                    width=width,
+                    height=1024,
+                    width=1024,
                 )
             except Exception as e:
                 print(f"An error occurred in main: {e}")
@@ -105,8 +105,8 @@ async def main():
         # for image_url in image_urls:
         #     print(f"Received image URL: {image_url}")
         #     st.image(image_url, use_column_width=True)
-        if 'image_urls' in st.session_state:
-            image_urls = st.session_state["image_urls"] 
+        if "image_urls" in st.session_state:
+            image_urls = st.session_state["image_urls"]
             st.image(image_urls, use_column_width=True)
 
 
